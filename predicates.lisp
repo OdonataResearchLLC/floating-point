@@ -3,7 +3,7 @@
 
  Floating Point Functions
 
- Copyright (c) 2009, Thomas M. Hermann
+ Copyright (c) 2009,2010, Thomas M. Hermann
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -39,7 +39,7 @@
 
 |#
 
-(common-lisp:in-package :floating-point)
+(in-package :floating-point)
 
 (defvar *epsilon* nil
   "The default error epsilon.")

@@ -3,7 +3,7 @@
 
  Floating Point Functions
 
- Copyright (c) 2009, Thomas M. Hermann
+ Copyright (c) 2009,2010, Thomas M. Hermann
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -34,7 +34,9 @@
 
 |#
 
-(common-lisp:defpackage :floating-point
+(in-package :common-lisp)
+
+(defpackage :floating-point
   (:use :common-lisp)
   (:export :*measure* :*epsilon* :*significant-figures*
            ;; Error analysis
@@ -46,4 +48,4 @@
 	   :sigfig-equal
            :norm-equal))
 
-(pushnew :floating-point common-lisp:*features*)
+(pushnew :floating-point *features*)

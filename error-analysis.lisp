@@ -3,7 +3,7 @@
 
  Floating Point Functions
 
- Copyright (c) 2009, Thomas M. Hermann
+ Copyright (c) 2009,2010, Thomas M. Hermann
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -39,7 +39,7 @@
 
 |#
 
-(common-lisp:in-package :floating-point)
+(in-package :floating-point)
 
 (defvar *measure* 1
   "The default measure of the norm.")
@@ -74,30 +74,33 @@
 (defmethod default-epsilon ((value float))
   "Return a default epsilon value based on the floating point type."
   (typecase value
-    (short-float  (* 2.0s0 short-float-epsilon))
-    (single-float (* 2.0f0 single-float-epsilon))
-    (double-float (* 2.0d0 double-float-epsilon))
-    (long-float   (* 2.0l0 long-float-epsilon))))
+    (short-float  (* 2S0 short-float-epsilon))
+    (single-float (* 2F0 single-float-epsilon))
+    (double-float (* 2D0 double-float-epsilon))
+    (long-float   (* 2L0 long-float-epsilon))))
 
 (defmethod default-epsilon ((value complex))
   "Return a default epsilon value based on the complex type."
   (typecase value
-    ((complex short-float)  (* 2.0s0 short-float-epsilon))
-    ((complex single-float) (* 2.0f0 single-float-epsilon))
-    ((complex double-float) (* 2.0d0 double-float-epsilon))
-    ((complex long-float)   (* 2.0l0 long-float-epsilon))
+    ((complex short-float)  (* 2S0 short-float-epsilon))
+    ((complex single-float) (* 2F0 single-float-epsilon))
+    ((complex double-float) (* 2D0 double-float-epsilon))
+    ((complex long-float)   (* 2L0 long-float-epsilon))
     (t 0)))
 
+;;; FIXME : Use the LOOP
 (defmethod default-epsilon ((value list))
   "Return the default epsilon based on contents of the list."
   (reduce (lambda (x y) (max x (default-epsilon y)))
           value :initial-value 0))
 
+;;; FIXME : Use the LOOP
 (defmethod default-epsilon ((value vector))
   "Return the default epsilon based on the contents of the vector."
   (reduce (lambda (x y) (max x (default-epsilon y)))
           value :initial-value 0))
 
+;;; FIXME : Use the LOOP
 (defmethod default-epsilon ((value array))
   "Return the default epsilon based on the contents of the array."
   (reduce (lambda (x y) (max x (default-epsilon y)))
@@ -106,16 +109,18 @@
                       :displaced-to value)
           :initial-value 0))
 
-;;; (RELATIVE-ERROR x y) => float
-;;; [NumAlgoC] : Definition 1.3, pg. 2
-;;;              modified with Definition 1.1, pg. 1
-;;;
-;;; The definition of relative error in this routine is modified from
-;;; the Definition 1.3 in [NumAlgoC] for cases when either the exact
-;;; or the approximate value equals zero. According to Definition 1.3,
-;;; the relative error is identically equal to 1 in those cases. This
-;;; function returns the absolue error in those cases. This is more
-;;; useful for testing.
+#|
+  (RELATIVE-ERROR x y) => float
+  [NumAlgoC] : Definition 1.3, pg. 2
+               modified with Definition 1.1, pg. 1
+
+  The definition of relative error in this routine is modified from
+  the Definition 1.3 in [NumAlgoC] for cases when either the exact
+  or the approximate value equals zero. According to Definition 1.3,
+  the relative error is identically equal to 1 in those cases. This
+  function returns the absolue error in those cases. This is more
+  useful for testing.
+|#
 (defun %relative-error (exact approximate)
   "Return the relative error of the numbers."
   (abs (if (or (zerop exact) (zerop approximate))
@@ -213,6 +218,7 @@ point value."
 ;;; (NORM data) => float
 (defun %seq-1-norm (data)
   "Return the Taxicab norm of the sequence."
+  ;; FIXME : Use the LOOP
   (reduce (lambda (x y) (+ x (abs y)))
           data :initial-value 0))
 
@@ -230,6 +236,7 @@ point value."
 
 (defun %seq-inf-norm (data)
   "Return the infinity, or maximum, norm of the sequence."
+  ;; FIXME : Use the LOOP
   (reduce (lambda (x y) (max x (abs y)))
           data :initial-value 0))
 

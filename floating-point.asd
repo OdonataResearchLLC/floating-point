@@ -3,7 +3,7 @@
 
  Floating Point Functions
 
- Copyright (c) 2009, Thomas M. Hermann
+ Copyright (c) 2009,2010, Thomas M. Hermann
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -34,22 +34,14 @@
 
 |#
 
-(common-lisp:defpackage #:floating-point-system
-  (:use #:common-lisp #:asdf))
-
-(common-lisp:in-package #:floating-point-system)
+(in-package :asdf)
 
 (defsystem :floating-point
   :description "Floating point functions."
   :version "Draft"
-  :author "Thomas M. Hermann <tmh.public@gmail.com>"
+  :author "Thomas M. Hermann <thomas.m.hermann@odonata-research.com>"
   :license "BSD"
   :components
-  ((:module
-    floating-point
-    :components
-    ((:file "defpackage")
-     (:file "error-analysis" :depends-on ("defpackage"))
-     (:file "predicates"
-            :depends-on ("defpackage"
-                         "error-analysis"))))))
+  ((:file "defpackage")
+   (:file "error-analysis" :depends-on ("defpackage"))
+   (:file "predicates" :depends-on ("error-analysis"))))
