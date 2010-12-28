@@ -38,6 +38,7 @@
 
 (defpackage :floating-point
   (:use :common-lisp)
+  (:nicknames :fp)
   (:export :*measure* :*epsilon* :*significant-figures*
            ;; Error analysis
            :default-epsilon
