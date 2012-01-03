@@ -47,6 +47,13 @@
 	   ;; Floating point predicates
            :float-equal
 	   :sigfig-equal
-           :norm-equal))
+           :norm-equal
+           ;; Curve fitting
+           :linear-least-squares
+           ;; Statistics
+           :arithmetic-mean
+           :standard-deviation
+           :sample-standard-deviation
+           :mean-and-standard-deviation))
 
 (pushnew :floating-point *features*)
