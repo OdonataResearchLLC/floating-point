@@ -3,7 +3,7 @@
 
  Floating Point Functions
 
- Copyright (c) 2009,2010, Thomas M. Hermann
+ Copyright (c) 2009-2012, Thomas M. Hermann
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -38,7 +38,7 @@
 
 (defsystem :floating-point
   :description "Floating point functions."
-  :version "Draft"
+  :version "0.0.0"
   :author "Thomas M. Hermann <thomas.m.hermann@odonata-research.com>"
   :license "BSD"
   :components
