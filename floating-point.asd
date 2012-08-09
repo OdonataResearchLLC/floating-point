@@ -38,7 +38,7 @@
 
 (defsystem :floating-point
   :description "Floating point functions."
-  :version "0.0.0"
+  :version "0.0.1"
   :author "Thomas M. Hermann <thomas.m.hermann@odonata-research.com>"
   :license "BSD"
   :components

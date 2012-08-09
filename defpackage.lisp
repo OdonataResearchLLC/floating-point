@@ -3,7 +3,7 @@
 
  Floating Point Functions
 
- Copyright (c) 2009,2010, Thomas M. Hermann
+ Copyright (c) 2009-2012, Thomas M. Hermann
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -39,19 +39,20 @@
 (defpackage :floating-point
   (:use :common-lisp)
   (:nicknames :fp)
-  (:export :*measure* :*epsilon* :*significant-figures*
-           ;; Error analysis
-           :default-epsilon
+  ;; Control parameters
+  (:export :*measure* :*epsilon* :*significant-figures*)
+  ;; Error analysis
+  (:export :default-epsilon
            :relative-error
-           :relative-error-norm
-	   ;; Floating point predicates
-           :float-equal
+           :relative-error-norm)
+  ;; Floating point predicates
+  (:export :float-equal
 	   :sigfig-equal
-           :norm-equal
-           ;; Curve fitting
-           :linear-least-squares
-           ;; Statistics
-           :arithmetic-mean
+           :norm-equal)
+  ;; Curve fitting
+  (:export :linear-least-squares)
+  ;; Statistics
+  (:export :arithmetic-mean
            :standard-deviation
            :sample-standard-deviation
            :mean-and-standard-deviation))

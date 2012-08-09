@@ -3,7 +3,7 @@
 
  Floating Point Functions
 
- Copyright (c) 2009-2011, Thomas M. Hermann
+ Copyright (c) 2009-2012, Thomas M. Hermann
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -40,9 +40,10 @@
   "Return the arithmetic mean of the data."
   (if data
       (loop for item in data sum item into sumdata
-            finally return
-            (/ (+ data1 data2 sumdata)
-               (+ 2 (length data))))
+            finally
+            (return
+             (/ (+ data1 data2 sumdata)
+                (+ 2 (length data)))))
       (* 1/2 (+ data1 data2))))
 
 (defun standard-deviation (data1 data2 &rest data)
@@ -54,9 +55,10 @@
             for item in data
             as diff = (- item mean)
             sum (* diff diff) into sumdiff
-            finally return
-            (sqrt (/ (+ diff1 diff2 sumdiff)
-                     (+ 2 (length data)))))
+            finally
+            (return
+             (sqrt (/ (+ diff1 diff2 sumdiff)
+                      (+ 2 (length data))))))
       (let* ((mean (arithmetic-mean data1 data2))
              (diff1 (* (- data1 mean) (- data1 mean)))
              (diff2 (* (- data2 mean) (- data2 mean))))
@@ -71,9 +73,10 @@
             for item in data
             as diff = (- item mean)
             sum (* diff diff) into sumdiff
-            finally return
-            (sqrt (/ (+ diff1 diff2 sumdiff)
-                     (+ 1 (length data)))))
+            finally
+            (return
+             (sqrt (/ (+ diff1 diff2 sumdiff)
+                      (+ 1 (length data))))))
       (let* ((mean (arithmetic-mean data1 data2))
              (diff1 (* (- data1 mean) (- data1 mean)))
              (diff2 (* (- data2 mean) (- data2 mean))))
@@ -88,9 +91,10 @@
             for item in data
             as diff = (- item mean)
             sum (* diff diff) into sumdiff
-            finally return
-            (values mean (sqrt (/ (+ diff1 diff2 sumdiff)
-                                  (+ 1 (length data))))))
+            finally
+            (return
+             (values mean (sqrt (/ (+ diff1 diff2 sumdiff)
+                                   (+ 1 (length data)))))))
       (let* ((mean (arithmetic-mean data1 data2))
              (diff1 (* (- data1 mean) (- data1 mean)))
              (diff2 (* (- data2 mean) (- data2 mean))))
