@@ -120,6 +120,7 @@
   function returns the absolue error in those cases. This is more
   useful for testing.
 |#
+
 (defun %relative-error (exact approximate)
   "Return the relative error of the numbers."
   (abs (if (or (zerop exact) (zerop approximate))
