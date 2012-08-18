@@ -38,6 +38,7 @@
 (defpackage :floating-point
   (:use :common-lisp)
   (:nicknames :fp)
+  ;; Control parameters
   (:export :*measure* :*epsilon* :*significant-figures*)
   ;; Error analysis
   (:export :default-epsilon
@@ -46,6 +47,13 @@
   ;; Floating point predicates
   (:export :float-equal
 	   :sigfig-equal
-           :norm-equal))
+           :norm-equal)
+  ;; Curve fitting
+  (:export :linear-least-squares)
+  ;; Statistics
+  (:export :arithmetic-mean
+           :standard-deviation
+           :sample-standard-deviation
+           :mean-and-standard-deviation))
 
 (pushnew :floating-point common-lisp:*features*)
