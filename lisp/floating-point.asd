@@ -1,9 +1,9 @@
-;;;; -*- Mode: Lisp; Syntax: ANSI-Common-Lisp -*-
+;;; -*- Mode: Lisp; Syntax: ANSI-Common-Lisp -*-
 #|
 
  Floating Point Functions
 
- Copyright (c) 2009,2010, Thomas M. Hermann
+ Copyright (c) 2009-2012, Odonata Research LLC
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -38,10 +38,12 @@
 
 (defsystem :floating-point
   :description "Floating point functions."
-  :version "Draft"
+  :version "0.1.0"
   :author "Thomas M. Hermann <thomas.m.hermann@odonata-research.com>"
   :license "BSD"
   :components
-  ((:file "defpackage")
-   (:file "error-analysis" :depends-on ("defpackage"))
-   (:file "predicates" :depends-on ("error-analysis"))))
+  ((:file "floating-point")
+   (:file "error-analysis"
+    :depends-on ("floating-point"))
+   (:file "predicates"
+    :depends-on ("error-analysis"))))

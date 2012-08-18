@@ -1,9 +1,8 @@
-;;;-*- Mode: Lisp; Syntax: ANSI-Common-Lisp -*-
 #|
 
  Floating Point Functions
 
- Copyright (c) 2009,2010, Thomas M. Hermann
+ Copyright (c) 2009-2012, Odonata Research LLC
  All rights reserved.
 
  Redistribution and  use  in  source  and  binary  forms, with or without
@@ -39,14 +38,14 @@
 (defpackage :floating-point
   (:use :common-lisp)
   (:nicknames :fp)
-  (:export :*measure* :*epsilon* :*significant-figures*
-           ;; Error analysis
-           :default-epsilon
+  (:export :*measure* :*epsilon* :*significant-figures*)
+  ;; Error analysis
+  (:export :default-epsilon
            :relative-error
-           :relative-error-norm
-	   ;; Floating point predicates
-           :float-equal
+           :relative-error-norm)
+  ;; Floating point predicates
+  (:export :float-equal
 	   :sigfig-equal
            :norm-equal))
 
-(pushnew :floating-point *features*)
+(pushnew :floating-point common-lisp:*features*)
