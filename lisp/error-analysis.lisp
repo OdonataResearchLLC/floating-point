@@ -96,9 +96,10 @@
 
 (defmethod default-epsilon ((value array))
   (loop for val across
-        (make-array (array-total-size value)
-                    :element-type (array-element-type value)
-                    :displaced-to value)
+        (make-array
+         (array-total-size value)
+         :element-type (array-element-type value)
+         :displaced-to value)
         maximize (default-epsilon val)))
 
 #|
@@ -116,9 +117,10 @@
 
 (defun %relative-error (exact approximate)
   "Return the relative error of the numbers."
-  (abs (if (or (zerop exact) (zerop approximate))
-	   (- exact approximate)
-	   (/ (- exact approximate) exact))))
+  (abs
+   (if (or (zerop exact) (zerop approximate))
+       (- exact approximate)
+       (/ (- exact approximate) exact))))
 
 (defmethod relative-error ((exact float) (approximate float))
   "Return the error delta between the exact and approximate floating
@@ -138,8 +140,8 @@ point value."
   (if (or (typep exact '(complex float))
           (typep approximate '(complex float)))
       (%relative-error exact approximate)
-      (error "Relative error is only applicable to complex values with ~
-              floating point parts.")))
+      (error
+       "Relative error is only applicable to (COMPLEX FLOAT).")))
 
 ;;; (%SUMSQ data) => scale, sumsq
 (defmethod %sumsq ((data list))
