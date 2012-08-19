@@ -39,21 +39,12 @@
   (:use :common-lisp)
   (:nicknames :fp)
   ;; Control parameters
-  (:export :*measure* :*epsilon* :*significant-figures*)
+  (:export :*epsilon* :*significant-figures*)
   ;; Error analysis
   (:export :default-epsilon
-           :relative-error
-           :relative-error-norm)
+           :relative-error)
   ;; Floating point predicates
   (:export :float-equal
-	   :sigfig-equal
-           :norm-equal)
-  ;; Curve fitting
-  (:export :linear-least-squares)
-  ;; Statistics
-  (:export :arithmetic-mean
-           :standard-deviation
-           :sample-standard-deviation
-           :mean-and-standard-deviation))
+	   :sigfig-equal))
 
 (pushnew :floating-point common-lisp:*features*)

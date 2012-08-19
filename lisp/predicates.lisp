@@ -50,10 +50,6 @@
   (:documentation
    "Return true if the floating point data is equal."))
 
-(defgeneric norm-equal (data1 data2 &optional epsilon measure)
-  (:documentation
-   "Return true if the norm of the data is equal."))
-
 (defgeneric sigfig-equal (data1 data2 &optional significant-figures)
   (:documentation
    "Return true if the data have equal significant figures."))
@@ -112,100 +108,6 @@ than epsilon."
      (or epsilon (max (default-epsilon data1)
                       (default-epsilon data2)))))
 
-(defun %seq-float-equal (seq1 seq2 epsilon)
-  "Return true if the element-wise comparison of relative error is
-less than epsilon."
-  (or
-   (and (null seq1) (null seq2))
-   (when (= (length seq1) (length seq2))
-     (every
-      (lambda (d1 d2) (float-equal d1 d2 epsilon)) seq1 seq2))))
-
-(defmethod float-equal ((data1 list) (data2 list)
-                        &optional (epsilon *epsilon*))
-  "Return true if the lists are equal in length and element-wise
-comparison of the relative error is less than epsilon."
-  (%seq-float-equal data1 data2 epsilon))
-
-(defmethod float-equal ((data1 list) (data2 vector)
-                        &optional (epsilon *epsilon*))
-  "Return true if the vector and the list are equal in length and
-element-wise comparison of the relative error is less than epsilon."
-  (%seq-float-equal data1 data2 epsilon))
-
-(defmethod float-equal ((data1 vector) (data2 list)
-                        &optional (epsilon *epsilon*))
-  "Return true if the vector and the list are equal in length and
-element-wise comparison of the relative error is less than epsilon."
-  (%seq-float-equal data1 data2 epsilon))
-
-(defmethod float-equal ((data1 vector) (data2 vector)
-                        &optional (epsilon *epsilon*))
-  "Return true if the vectors are equal in length and element-wise
-comparison of the relative error is less than epsilon."
-  (%seq-float-equal data1 data2 epsilon))
-
-(defmethod float-equal ((data1 array) (data2 array)
-                        &optional (epsilon *epsilon*))
-  "Return true if the arrays are equal in length and element-wise
-comparison of the relative error is less than epsilon."
-  (when (equal (array-dimensions data1)
-               (array-dimensions data2))
-    (%seq-float-equal
-     (make-array (array-total-size data1)
-                 :element-type (array-element-type data1)
-                 :displaced-to data1)
-     (make-array (array-total-size data2)
-                 :element-type (array-element-type data2)
-                 :displaced-to data2)
-     epsilon)))
-
-;;; (NORM-EQUAL data1 data2 epsilon measure) => boolean
-(defun %norm-equal (seq1 seq2 epsilon measure)
-  "Return true if the relative error norm is less than epsilon."
-  (or
-   (and (null seq1) (null seq2))
-   (< (%relative-error-norm seq1 seq2 measure) epsilon)))
-
-(defmethod norm-equal ((data1 list) (data2 list) &optional
-                       (epsilon *epsilon*) (measure *measure*))
-  "Return true if the lists are equal in length and the relative error
-norm is less than epsilon."
-  (%norm-equal data1 data2 epsilon measure))
-
-(defmethod norm-equal ((data1 list) (data2 vector) &optional
-                       (epsilon *epsilon*) (measure *measure*))
-  "Return true if the vector and the list are equal in length and the
-relative error norm is less than epsilon."
-  (%norm-equal data1 data2 epsilon measure))
-
-(defmethod norm-equal ((data1 vector) (data2 list) &optional
-                       (epsilon *epsilon*) (measure *measure*))
-  "Return true if the vector and the list are equal in length and the
-relative error norm is less than epsilon."
-  (%norm-equal data1 data2 epsilon measure))
-
-(defmethod norm-equal ((data1 vector) (data2 vector) &optional
-                       (epsilon *epsilon*) (measure *measure*))
-  "Return true if the vectors are equal in length and the relative
-error norm is less than epsilon."
-  (%norm-equal data1 data2 epsilon measure))
-
-(defmethod norm-equal ((data1 array) (data2 array) &optional
-                       (epsilon *epsilon*) (measure *measure*))
-  "Return true if the arrays are equal in length and the relative
-error norm is less than epsilon."
-  (when (equal (array-dimensions data1)
-               (array-dimensions data2))
-    (%norm-equal
-     (make-array (array-total-size data1)
-                 :element-type (array-element-type data1)
-                 :displaced-to data1)
-     (make-array (array-total-size data2)
-                 :element-type (array-element-type data2)
-                 :displaced-to data2)
-     epsilon measure)))
-
 ;;; (NORMALIZE-FLOAT significand &optional exponent) => significand,exponent
 ;;; [NumAlgoC] : Definition 1.7, pg. 4
 ;;;
@@ -238,52 +140,3 @@ figures."
   "Return true if the floating point numbers have equal significant
 figures."
   (%sigfig-equal data1 data2 significant-figures))
-
-(defun %seq-sigfig-equal (seq1 seq2 significant-figures)
-  "Return true if the element-wise comparison is equal to the
-specified significant figures."
-  (or
-   (and (null seq1) (null seq2))
-   (when (= (length seq1) (length seq2))
-     (every
-      (lambda (d1 d2) (sigfig-equal d1 d2 significant-figures))
-      seq1 seq2))))
-
-(defmethod sigfig-equal ((data1 list) (data2 list) &optional
-                         (significant-figures *significant-figures*))
-  "Return true if the lists are equal in length and the element-wise
-comparison is equal to significant figures."
-  (%seq-sigfig-equal data1 data2 significant-figures))
-
-(defmethod sigfig-equal ((data1 vector) (data2 list) &optional
-                         (significant-figures *significant-figures*))
-  "Return true if the vector and the list are equal in length and the
-element-wise comparison is equal to significant figures."
-  (%seq-sigfig-equal data1 data2 significant-figures))
-
-(defmethod sigfig-equal ((data1 list) (data2 vector) &optional
-                         (significant-figures *significant-figures*))
-  "Return true if the list and the vector are equal in length and the
-element-wise comparison is equal to significant figures."
-  (%seq-sigfig-equal data1 data2 significant-figures))
-
-(defmethod sigfig-equal ((data1 vector) (data2 vector) &optional
-                         (significant-figures *significant-figures*))
-  "Return true if the vectors are equal in length and the element-wise
-comparison is equal to significant figures."
-  (%seq-sigfig-equal data1 data2 significant-figures))
-
-(defmethod sigfig-equal ((data1 array) (data2 array) &optional
-                         (significant-figures *significant-figures*))
-  "Return true if the arrays are equal in length and the element-wise
-comparison is equal to significant figures."
-  (when (equal (array-dimensions data1)
-               (array-dimensions data2))
-    (%seq-sigfig-equal
-     (make-array (array-total-size data1)
-                 :element-type (array-element-type data1)
-                 :displaced-to data1)
-     (make-array (array-total-size data2)
-                 :element-type (array-element-type data2)
-                 :displaced-to data2)
-     significant-figures)))
