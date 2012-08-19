@@ -40,6 +40,8 @@
 
 (in-package :floating-point)
 
+;;; Interface
+
 (defvar *epsilon* nil
   "The default error epsilon.")
 
@@ -66,39 +68,47 @@ epsilon."
                         &optional (epsilon *epsilon*))
   "Return true if the relative error between data1 and data2 is less
 than epsilon."
-  (%float-equal data1 data2
-                (or epsilon (max (default-epsilon data1)
-                                 (default-epsilon data2)))))
+  (%float-equal
+   data1 data2
+   (or epsilon
+       (max (default-epsilon data1)
+            (default-epsilon data2)))))
 
 (defmethod float-equal ((data1 float) (data2 rational)
                         &optional (epsilon *epsilon*))
   "Return true if the relative error between data1 and data2 is less
 than epsilon."
-  (%float-equal data1 (float data2 data1)
-                (or epsilon (default-epsilon data1))))
+  (%float-equal
+   data1 (float data2 data1)
+   (or epsilon (default-epsilon data1))))
 
 (defmethod float-equal ((data1 rational) (data2 float)
                         &optional (epsilon *epsilon*))
   "Return true if the relative error between data1 and data2 is less
 than epsilon."
-  (%float-equal (float data1 data2) data2
-                (or epsilon (default-epsilon data2))))
+  (%float-equal
+   (float data1 data2) data2
+   (or epsilon (default-epsilon data2))))
 
 (defmethod float-equal ((data1 float) (data2 complex)
                         &optional (epsilon *epsilon*))
   "Return true if the relative error between data1 and data2 is less
 than epsilon."
-  (%float-equal data1 data2
-                (or epsilon (max (default-epsilon data1)
-                                 (default-epsilon data2)))))
+  (%float-equal
+   data1 data2
+   (or epsilon
+       (max (default-epsilon data1)
+            (default-epsilon data2)))))
 
 (defmethod float-equal ((data1 complex) (data2 float)
                         &optional (epsilon *epsilon*))
   "Return true if the relative error between data1 and data2 is less
 than epsilon."
-  (%float-equal data1 data2
-                (or epsilon (max (default-epsilon data1)
-                                 (default-epsilon data2)))))
+  (%float-equal
+   data1 data2
+   (or epsilon
+       (max (default-epsilon data1)
+            (default-epsilon data2)))))
 
 (defmethod float-equal ((data1 complex) (data2 complex)
                         &optional (epsilon *epsilon*))
@@ -129,11 +139,13 @@ than epsilon."
   "Return true if the floating point numbers have equal significant
 figures."
   (if (or (zerop float1) (zerop float2))
-      (< (abs (+ float1 float2)) (* 5D-1 (expt 1D1 (- significant-figures))))
+      (< (abs (+ float1 float2))
+         (* 5D-1 (expt 1D1 (- significant-figures))))
       (multiple-value-bind (sig1 exp1) (%normalize-float float1)
         (multiple-value-bind (sig2 exp2) (%normalize-float float2)
-          (= (round (* sig1 (expt 1D1 significant-figures)))
-             (round (* sig2 (expt 1D1 (- significant-figures (- exp1 exp2))))))))))
+          (=
+           (round (* sig1 (expt 1D1 significant-figures)))
+           (round (* sig2 (expt 1D1 (- significant-figures (- exp1 exp2))))))))))
 
 (defmethod sigfig-equal ((data1 float) (data2 float) &optional
                          (significant-figures *significant-figures*))

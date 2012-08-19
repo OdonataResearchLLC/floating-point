@@ -68,21 +68,6 @@
     ((complex long-float)   (* 2L0 long-float-epsilon))
     (t 0)))
 
-(defmethod default-epsilon ((value list))
-  "Return the default epsilon for the list."
-  (loop for val in value maximize (default-epsilon val)))
-
-(defmethod default-epsilon ((value vector))
-  (loop for val across value maximize (default-epsilon val)))
-
-(defmethod default-epsilon ((value array))
-  (loop for val across
-        (make-array
-         (array-total-size value)
-         :element-type (array-element-type value)
-         :displaced-to value)
-        maximize (default-epsilon val)))
-
 #|
   (RELATIVE-ERROR x y) => float
   [NumAlgoC] : Definition 1.3, pg. 2
