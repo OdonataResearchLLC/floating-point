@@ -133,3 +133,172 @@
        ((1L0 2L0) (3L0 4L0))
        ((1L0 2L0) (3L0 4L0))
        ((1L0 2L0) (3L0 4L0)))))))
+
+;;; relative-error tests
+
+(define-test %relative-error
+  ;; Fundamental tests
+  (assert-eql 1D0 (fp::%relative-error 0D0 1D0))
+  (assert-eql 1D0 (fp::%relative-error 1D0 0D0))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp::%relative-error
+       1D0 (+ 1D0 double-float-epsilon))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp::%relative-error
+       (+ 1D0 double-float-epsilon) 1D0)))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp::%relative-error
+       1D0 (- 1D0 double-float-epsilon))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp::%relative-error
+       (- 1D0 double-float-epsilon) 1D0))))
+
+(define-test relative-error-float
+  (assert-true 
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error 1F0 (+ 1F0 single-float-epsilon))))
+  (assert-true 
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error (+ 1F0 single-float-epsilon) 1F0)))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error 1F0 (+ 1D0 single-float-epsilon))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error (+ 1D0 single-float-epsilon) 1F0)))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error 1F0 (- 1D0 single-float-epsilon))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error (- 1D0 single-float-epsilon) 1F0)))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error 1F0 (+ 1D0 double-float-epsilon))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error (+ 1D0 double-float-epsilon) 1F0)))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error 1F0 (- 1D0 double-float-epsilon))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error (- 1D0 double-float-epsilon) 1F0)))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error 1D0 (+ 1D0 double-float-epsilon))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error (+ 1D0 double-float-epsilon) 1D0)))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error 1D0 (- 1D0 double-float-epsilon))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error (- 1D0 double-float-epsilon) 1D0))))
+
+(define-test relative-error-complex
+  (assert-error
+   'error
+   (fp:relative-error
+    (complex 1 1) (complex 2 2)))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex 1F0 1F0)
+       (complex (+ 1F0 single-float-epsilon)
+                (+ 1F0 single-float-epsilon)))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex 1F0 1F0)
+       (complex (- 1F0 single-float-epsilon)
+                (+ 1F0 single-float-epsilon)))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex 1F0 1F0)
+       (complex (+ 1F0 single-float-epsilon)
+                (- 1F0 single-float-epsilon)))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex 1F0 1F0)
+       (complex (- 1F0 single-float-epsilon)
+                (- 1F0 single-float-epsilon)))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex (+ 1F0 single-float-epsilon)
+                (+ 1F0 single-float-epsilon))
+       (complex 1F0 1F0))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex (- 1F0 single-float-epsilon)
+                (+ 1F0 single-float-epsilon))
+       (complex 1F0 1F0))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex (+ 1F0 single-float-epsilon)
+                (- 1F0 single-float-epsilon))
+       (complex 1F0 1F0))))
+  (assert-true
+   (> (* 2F0 single-float-epsilon)
+      (fp:relative-error
+       (complex (- 1F0 single-float-epsilon)
+                (- 1F0 single-float-epsilon))
+       (complex 1F0 1F0))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex 1D0 1D0)
+       (complex (+ 1D0 double-float-epsilon)
+                (+ 1D0 double-float-epsilon)))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex 1D0 1D0)
+       (complex (- 1D0 double-float-epsilon)
+                (+ 1D0 double-float-epsilon)))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex 1D0 1D0)
+       (complex (+ 1D0 double-float-epsilon)
+                (- 1D0 double-float-epsilon)))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex 1D0 1D0)
+       (complex (- 1D0 double-float-epsilon)
+                (- 1D0 double-float-epsilon)))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex (+ 1D0 double-float-epsilon)
+                (+ 1D0 double-float-epsilon))
+       (complex 1D0 1D0))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex (- 1D0 double-float-epsilon)
+                (+ 1D0 double-float-epsilon))
+       (complex 1D0 1D0))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex (+ 1D0 double-float-epsilon)
+                (- 1D0 double-float-epsilon))
+       (complex 1D0 1D0))))
+  (assert-true
+   (> (* 2D0 double-float-epsilon)
+      (fp:relative-error
+       (complex (- 1D0 double-float-epsilon)
+                (- 1D0 double-float-epsilon))
+       (complex 1D0 1D0)))))
