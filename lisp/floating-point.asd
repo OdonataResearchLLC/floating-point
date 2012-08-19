@@ -45,9 +45,5 @@
   ((:file "floating-point")
    (:file "error-analysis"
     :depends-on ("floating-point"))
-   (:file "statistics"
-    :depends-on ("floating-point"))
-   (:file "curve-fit"
-    :depends-on ("floating-point"))
    (:file "predicates"
     :depends-on ("error-analysis"))))
