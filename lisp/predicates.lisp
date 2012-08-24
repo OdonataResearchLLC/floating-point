@@ -134,21 +134,16 @@ than epsilon."
      (%normalize-float (* significand 10.0) (1- exponent)))
     (t (values (/ significand 10.0) (1+ exponent)))))
 
-;;; (SIGFIG-EQUAL float1 float2 significant-figures) => true or false
-(defun %sigfig-equal (float1 float2 significant-figures)
-  "Return true if the floating point numbers have equal significant
-figures."
-  (if (or (zerop float1) (zerop float2))
-      (< (abs (+ float1 float2))
-         (* 5D-1 (expt 1D1 (- significant-figures))))
-      (multiple-value-bind (sig1 exp1) (%normalize-float float1)
-        (multiple-value-bind (sig2 exp2) (%normalize-float float2)
-          (=
-           (round (* sig1 (expt 1D1 significant-figures)))
-           (round (* sig2 (expt 1D1 (- significant-figures (- exp1 exp2))))))))))
-
+;;; (SIGFIG-EQUAL data1 data2 significant-figures) => true or false
 (defmethod sigfig-equal ((data1 float) (data2 float) &optional
                          (significant-figures *significant-figures*))
   "Return true if the floating point numbers have equal significant
 figures."
-  (%sigfig-equal data1 data2 significant-figures))
+  (if (or (zerop data1) (zerop data2))
+      (< (abs (+ data1 data2))
+         (* 5D-1 (expt 1D1 (- significant-figures))))
+      (multiple-value-bind (sig1 exp1) (%normalize-float data1)
+        (multiple-value-bind (sig2 exp2) (%normalize-float data2)
+          (=
+           (round (* sig1 (expt 1D1 significant-figures)))
+           (round (* sig2 (expt 1D1 (- significant-figures (- exp1 exp2))))))))))
