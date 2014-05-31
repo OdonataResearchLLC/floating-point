@@ -43,6 +43,7 @@
   :license "BSD"
   :components
   ((:file "floating-point")
+   (:file "constants" :depends-on ("floating-point"))
    (:file "error-analysis"
     :depends-on ("floating-point"))
    (:file "predicates"

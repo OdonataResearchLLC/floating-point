@@ -40,6 +40,8 @@
   (:nicknames :fp)
   ;; Control parameters
   (:export :*epsilon* :*significant-figures*)
+  ;; Constants
+  (:export :pi/2)
   ;; Error analysis
   (:export :default-epsilon
            :relative-error)
